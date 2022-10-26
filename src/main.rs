@@ -13,6 +13,8 @@ fn view(app: &App, frame: Frame) {
     let monster = Monster {
         parts: vec![Box::new(Body {
             centroid: (0.0, 0.0),
+            color: STEELBLUE,
+            outline: BLACK,
             scale: 200.0,
         })],
     };
