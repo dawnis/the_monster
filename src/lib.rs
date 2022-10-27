@@ -1,5 +1,8 @@
 use nannou::color::encoding::Srgb;
 use nannou::color::rgb::Rgb;
+use nannou::color::IntoLinSrgba;
+use nannou::draw::mesh::vertex::Point;
+use nannou::draw::properties::ColorScalar;
 use nannou::prelude::*;
 use std::iter::Map;
 
@@ -30,7 +33,7 @@ impl Rawr for Head {
         let points = (0..=360).step_by(1).map(|i| {
             let radian = deg_to_rad(i as f32);
             let x = radian.sin() * self.scale;
-            let y = radian.cos() * self.scale + self.scale*2.0;
+            let y = radian.cos() * self.scale + self.scale * 2.0;
             (pt2(x, y), self.color)
         });
         d.polygon().points_colored(points);
@@ -38,7 +41,7 @@ impl Rawr for Head {
         let points = (0..=360).step_by(1).map(|i| {
             let radian = deg_to_rad(i as f32);
             let x = radian.sin() * self.scale;
-            let y = radian.cos() * self.scale + self.scale*2.0;
+            let y = radian.cos() * self.scale + self.scale * 2.0;
             (pt2(x, y), self.outline)
         });
         d.polyline().weight(3.0).points_colored(points);
@@ -51,10 +54,9 @@ impl Rawr for Head {
 
         d.ellipse()
             .x_y(0.0, self.scale * 2.0)
-            .w(self.scale/2.0)
-            .h(self.scale/2.0)
+            .w(self.scale / 2.0)
+            .h(self.scale / 2.0)
             .color(self.outline);
-
     }
 }
 
@@ -93,15 +95,27 @@ pub struct Legs {
 impl Rawr for Legs {
     fn rawr(&self, d: &Draw) {
         d.rect()
-            .x_y(-self.scale/2.0, -self.scale * 2.0)
-            .w(self.scale/4.0)
-            .h(self.scale*2.0)
+            .x_y(-self.scale / 2.0, -self.scale * 2.0)
+            .w(self.scale / 4.0 + 5.0)
+            .h(self.scale * 2.0 + 5.0)
+            .color(self.outline);
+
+        d.rect()
+            .x_y(-self.scale / 2.0, -self.scale * 2.0)
+            .w(self.scale / 4.0)
+            .h(self.scale * 2.0)
             .color(self.color);
 
         d.rect()
-            .x_y(self.scale/2.0, -self.scale * 2.0)
-            .w(self.scale/4.0)
-            .h(self.scale*2.0)
+            .x_y(self.scale / 2.0, -self.scale * 2.0)
+            .w(self.scale / 4.0 + 5.0)
+            .h(self.scale * 2.0 + 5.0)
+            .color(self.outline);
+
+        d.rect()
+            .x_y(self.scale / 2.0, -self.scale * 2.0)
+            .w(self.scale / 4.0)
+            .h(self.scale * 2.0)
             .color(self.color);
     }
 }
