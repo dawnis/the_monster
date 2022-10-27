@@ -1,6 +1,6 @@
 mod lib;
 use nannou::prelude::*;
-use the_monster::{Body, Monster};
+use the_monster::{Body, Head, Legs, Monster};
 
 fn main() {
     nannou::sketch(view).run();
@@ -8,15 +8,31 @@ fn main() {
 
 fn view(app: &App, frame: Frame) {
     let draw = app.draw();
-    draw.background().color(GRAY);
+    let scale = 100.0;
+    let outline_color = BLACK;
+    let monster_color = MEDIUMORCHID;
+
+    draw.background().color(MEDIUMTURQUOISE);
 
     let monster = Monster {
-        parts: vec![Box::new(Body {
-            centroid: (0.0, 0.0),
-            color: STEELBLUE,
-            outline: BLACK,
-            scale: 200.0,
-        })],
+        parts: vec![
+            Box::new(Head {
+                scale: scale,
+                color: monster_color,
+                outline: outline_color,
+            }),
+            Box::new(Legs {
+                scale: scale,
+                color: monster_color,
+                outline: outline_color,
+            }),
+            Box::new(Body {
+                centroid: (0.0, 0.0),
+                color: monster_color,
+                outline: outline_color,
+                scale: scale,
+            }),
+        ],
     };
 
     monster.make(&draw);
