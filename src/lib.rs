@@ -22,6 +22,43 @@ impl Monster {
     }
 }
 
+struct Eye {
+    radius: f32,
+    centroid: (f32, f32),
+    sclera: Rgb<Srgb, u8>,
+    iris: Rgb<Srgb, u8>,
+}
+
+impl Eye {
+    pub fn new(
+        radius: f32,
+        centroid: (f32, f32),
+        sclera: Rgb<Srgb, u8>,
+        iris: Rgb<Srgb, u8>,
+    ) -> Self {
+        Eye {
+            radius,
+            centroid,
+            sclera,
+            iris,
+        }
+    }
+
+    pub fn show(&self, draw: &Draw) {
+        draw.ellipse()
+            .x_y(self.centroid.0, self.centroid.1)
+            .w(self.radius)
+            .h(self.radius)
+            .color(self.sclera);
+
+        draw.ellipse()
+            .x_y(self.centroid.0, self.centroid.1)
+            .w(self.radius / 2.0)
+            .h(self.radius / 2.0)
+            .color(self.iris);
+    }
+}
+
 struct Polygon {
     sides: usize,
     centroid: (f32, f32),
@@ -75,19 +112,30 @@ pub struct Head {
 
 impl Rawr for Head {
     fn rawr(&self, d: &Draw) {
-        Polygon::new(360, (0.0, self.scale*2.0), self.scale, self.color, self.outline).show(d);
+        Polygon::new(
+            12,
+            (0.0, self.scale * 2.0),
+            self.scale,
+            self.color,
+            self.outline,
+        )
+        .show(d);
 
-        d.ellipse()
-            .x_y(0.0, self.scale * 2.0)
-            .w(self.scale)
-            .h(self.scale)
-            .color(WHITE);
+        Eye::new(
+            self.scale / 2.0,
+            (-self.scale / 4.0, self.scale * 2.0),
+            WHITE,
+            BLACK,
+        )
+        .show(d);
 
-        d.ellipse()
-            .x_y(0.0, self.scale * 2.0)
-            .w(self.scale / 2.0)
-            .h(self.scale / 2.0)
-            .color(self.outline);
+        Eye::new(
+            self.scale / 2.0,
+            (self.scale / 4.0, self.scale * 2.0),
+            WHITE,
+            BLACK,
+        )
+        .show(d);
     }
 }
 
@@ -100,7 +148,13 @@ pub struct Body {
 
 impl Rawr for Body {
     fn rawr(&self, d: &Draw) {
-        Polygon::new(5, self.centroid, self.scale, self.color, self.outline).show(d);
+        Polygon::new(6, self.centroid, self.scale, self.color, self.outline).show(d);
+
+        d.ellipse()
+            .x_y(self.centroid.0, self.centroid.1)
+            .w(self.scale / 1.2)
+            .h(self.scale * 1.4)
+            .color(DARKTURQUOISE);
     }
 }
 
