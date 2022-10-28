@@ -1,4 +1,5 @@
-mod parts;
+use crate::parts::{eye::Eye, polygon::Polygon};
+use crate::monster::Rawr;
 use nannou::color::encoding::Srgb;
 use nannou::color::rgb::Rgb;
 use nannou::prelude::*;

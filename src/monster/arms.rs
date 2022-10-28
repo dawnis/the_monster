@@ -1,10 +1,8 @@
+use crate::parts::polygon::Polygon;
+use crate::monster::Rawr;
 use nannou::color::encoding::Srgb;
 use nannou::color::rgb::Rgb;
-use nannou::color::IntoLinSrgba;
-use nannou::draw::mesh::vertex::Point;
-use nannou::draw::properties::ColorScalar;
 use nannou::prelude::*;
-use std::iter::Map;
 
 pub struct Arms {
     pub color: Rgb<Srgb, u8>,
