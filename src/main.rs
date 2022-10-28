@@ -1,6 +1,8 @@
-mod lib;
+mod monster;
+mod parts;
+use crate::monster::Monster;
+use crate::monster::{head::Head, body::Body, arms::Arms, legs::Legs};
 use nannou::prelude::*;
-use the_monster::{Body, Head, Arms, Legs, Monster};
 
 fn main() {
     nannou::sketch(view).run();
