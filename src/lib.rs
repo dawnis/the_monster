@@ -154,7 +154,69 @@ impl Rawr for Body {
             .x_y(self.centroid.0, self.centroid.1)
             .w(self.scale / 1.2)
             .h(self.scale * 1.4)
-            .color(DARKTURQUOISE);
+            .color(VIOLET);
+    }
+}
+
+pub struct Arms {
+    pub color: Rgb<Srgb, u8>,
+    pub outline: Rgb<Srgb, u8>,
+    pub scale: f32,
+}
+
+impl Rawr for Arms {
+    fn rawr(&self, d: &Draw) {
+        d.ellipse()
+            .x_y(-self.scale * 2.0, self.scale / 2.0)
+            .w(self.scale * 4.0)
+            .h(self.scale / 8.0)
+            .z_degrees(-5.0)
+            .color(self.outline);
+
+        d.ellipse()
+            .x_y(-self.scale * 2.0, self.scale / 2.0)
+            .w(self.scale * 4.0 - 3.0)
+            .h(self.scale / 8.0 - 3.0)
+            .z_degrees(-5.0)
+            .color(self.color);
+
+        Polygon::new(
+            3,
+            (
+                -self.scale * 4.0,
+                self.scale / 2.0 + 2.0*2.0*deg_to_rad(5.0).sin() * self.scale / 2.0,
+            ),
+            self.scale/2.5,
+            self.color,
+            self.outline,
+        )
+        .show(d);
+
+        d.ellipse()
+            .x_y(self.scale * 2.0, self.scale / 2.0)
+            .w(self.scale * 4.0)
+            .h(self.scale / 8.0)
+            .z_degrees(5.0)
+            .color(self.outline);
+
+        d.ellipse()
+            .x_y(self.scale * 2.0, self.scale / 2.0)
+            .w(self.scale * 4.0 - 3.0)
+            .h(self.scale / 8.0 - 3.0)
+            .z_degrees(5.0)
+            .color(self.color);
+
+        Polygon::new(
+            3,
+            (
+                self.scale * 4.0,
+                self.scale / 2.0 + 2.0*deg_to_rad(5.0).sin() * self.scale / 2.0,
+            ),
+            self.scale/2.5,
+            self.color,
+            self.outline,
+        )
+        .show(d);
     }
 }
 

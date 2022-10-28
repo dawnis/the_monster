@@ -1,6 +1,6 @@
 mod lib;
 use nannou::prelude::*;
-use the_monster::{Body, Head, Legs, Monster};
+use the_monster::{Body, Head, Arms, Legs, Monster};
 
 fn main() {
     nannou::sketch(view).run();
@@ -17,6 +17,11 @@ fn view(app: &App, frame: Frame) {
     let monster = Monster {
         parts: vec![
             Box::new(Head {
+                scale: scale,
+                color: monster_color,
+                outline: outline_color,
+            }),
+            Box::new(Arms {
                 scale: scale,
                 color: monster_color,
                 outline: outline_color,
