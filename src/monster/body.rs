@@ -1,3 +1,4 @@
+mod parts;
 use nannou::color::encoding::Srgb;
 use nannou::color::rgb::Rgb;
 use nannou::prelude::*;

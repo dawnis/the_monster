@@ -1,3 +1,7 @@
+pub mod arms;
+pub mod body;
+pub mod head;
+pub mod legs;
 use nannou::prelude::*;
 
 pub trait Rawr {
