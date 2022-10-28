@@ -2,6 +2,7 @@ use nannou::color::encoding::Srgb;
 use nannou::color::rgb::Rgb;
 use nannou::prelude::*;
 
+#[derive(Debug)]
 pub struct Eye {
     radius: f32,
     centroid: (f32, f32),

@@ -2,6 +2,7 @@ use nannou::color::encoding::Srgb;
 use nannou::color::rgb::Rgb;
 use nannou::prelude::*;
 
+#[derive(Debug)]
 pub struct Polygon {
     sides: usize,
     centroid: (f32, f32),
