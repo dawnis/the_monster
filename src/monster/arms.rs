@@ -1,5 +1,5 @@
-use crate::parts::polygon::Polygon;
 use crate::monster::Rawr;
+use crate::parts::{polygon::Polygon, weapon::Weapon};
 use nannou::color::encoding::Srgb;
 use nannou::color::rgb::Rgb;
 use nannou::prelude::*;
@@ -35,6 +35,15 @@ impl Rawr for Arms {
             self.scale / 2.5,
             self.color,
             self.outline,
+        )
+        .show(d);
+
+        Weapon::new(
+            String::from("circle"),
+            30.0,
+            (-self.scale * 4.0, self.scale / 2.0),
+            SILVER,
+            BLACK,
         )
         .show(d);
 
