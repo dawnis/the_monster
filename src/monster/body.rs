@@ -1,5 +1,5 @@
-use crate::parts::{eye::Eye, polygon::Polygon};
 use crate::monster::Rawr;
+use crate::parts::{eye::Eye, polygon::Polygon};
 use nannou::color::encoding::Srgb;
 use nannou::color::rgb::Rgb;
 use nannou::prelude::*;
@@ -9,6 +9,19 @@ pub struct Body {
     pub color: Rgb<Srgb, u8>,
     pub outline: Rgb<Srgb, u8>,
     pub scale: f32,
+}
+
+impl Body {
+    pub fn bounding_box(&self) -> Rect {
+        let tummy_shrink = 0.85;
+        let box_actual_scale = 2.0 * tummy_shrink;
+        Rect::from_x_y_w_h(
+            self.centroid.0,
+            self.centroid.1,
+            box_actual_scale * self.scale,
+            box_actual_scale * self.scale,
+        )
+    }
 }
 
 impl Rawr for Body {
