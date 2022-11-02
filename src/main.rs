@@ -21,11 +21,8 @@ fn model(app: &App) -> Model {
     }
 }
 
-fn update(_app: &App, model: &mut Model, _update: Update) {
-    model.monster_location = (
-        model.monster_location.0 + 0.1,
-        model.monster_location.1 + 0.1,
-    );
+fn update(app: &App, model: &mut Model, _update: Update) {
+    model.monster_location = (app.mouse.x, app.mouse.y);
 }
 
 fn view(app: &App, model: &Model, frame: Frame) {
