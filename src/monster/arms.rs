@@ -1,12 +1,11 @@
-use crate::monster::Rawr;
+use crate::Point;
+use crate::monster::{Rawr, Mrgb};
 use crate::parts::{polygon::Polygon, weapon::Weapon};
-use nannou::color::encoding::Srgb;
-use nannou::color::rgb::Rgb;
 use nannou::prelude::*;
 
 pub struct Arms {
-    pub color: Rgb<Srgb, u8>,
-    pub outline: Rgb<Srgb, u8>,
+    pub color: Mrgb,
+    pub outline: Mrgb,
     pub scale: f32,
     pub left_bounding_rect: Rect,
     pub right_bounding_rect: Rect
@@ -30,7 +29,7 @@ impl Rawr for Arms {
 
         Polygon::new(
             3,
-            (left_hand.x(), left_hand.y()),
+            Point::new(left_hand.x(), left_hand.y()),
             self.scale / 2.5,
             self.color,
             self.outline,
@@ -62,7 +61,7 @@ impl Rawr for Arms {
 
         Polygon::new(
             3,
-            (right_hand.x(), right_hand.y()),
+            Point::new(right_hand.x(), right_hand.y()),
             self.scale / 2.5,
             self.color,
             self.outline,

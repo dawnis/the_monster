@@ -1,8 +1,54 @@
 mod monster;
 mod parts;
 use crate::monster::Monster;
+use nannou::color::encoding::Srgb;
+use palette::named;
+use nannou::color::rgb::Rgb;
 use nannou::prelude::*;
 use rand::Rng;
+
+///Type alias for nannou color type
+type Mrgb = Rgb<Srgb, u8>;
+
+#[derive(Debug, Clone, Copy)]
+enum Color {
+    MEDIUMORCHID,
+    YELLOW,
+    ORANGE,
+    BLUE,
+    HOTPINK,
+    LAWNGREEN,
+    GOLD,
+    DEEPPINK,
+    CORAL,
+    AQUAMARINE,
+    CHOCOLATE,
+}
+
+impl ToString for Color {
+    fn to_string(&self) -> String {
+        format!("{:?}", self).to_lowercase()
+    }
+}
+
+impl From<Color> for Mrgb {
+    fn from(c: Color) -> Self {
+        named::from_str(&c.to_string()).unwrap()
+    }
+}
+
+/// A coordinate pair - the (0,0) default is the center of the frame
+#[derive(Debug, Default, Clone, Copy)]
+pub struct Point {
+    x: f32,
+    y: f32,
+}
+
+impl Point {
+    fn new(x: f32, y: f32) -> Self {
+        Self { x, y }
+    }
+}
 
 fn main() {
     nannou::app(model).update(update).run()
@@ -10,19 +56,19 @@ fn main() {
 
 struct Model {
     _window: window::Id,
-    pub monster_location: (f32, f32),
+    pub monster_location: Point,
 }
 
 fn model(app: &App) -> Model {
     let _window = app.new_window().view(view).build().unwrap();
     Model {
         _window,
-        monster_location: (0.0, 0.0),
+        monster_location: Point::new(0.0, 0.0),
     }
 }
 
 fn update(app: &App, model: &mut Model, _update: Update) {
-    model.monster_location = (app.mouse.x, app.mouse.y);
+    model.monster_location = Point::new(app.mouse.x, app.mouse.y);
 }
 
 fn view(app: &App, model: &Model, frame: Frame) {

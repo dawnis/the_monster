@@ -3,8 +3,7 @@ pub mod body;
 pub mod head;
 pub mod legs;
 use crate::monster::{arms::Arms, body::Body, head::Head, legs::Legs};
-use nannou::color::encoding::Srgb;
-use nannou::color::rgb::Rgb;
+use crate::{Mrgb, Point};
 use nannou::prelude::*;
 
 pub trait Rawr {
@@ -16,12 +15,7 @@ pub struct Monster {
 }
 
 impl Monster {
-    pub fn new(
-        location: (f32, f32),
-        scale: f32,
-        color: Rgb<Srgb, u8>,
-        outline: Rgb<Srgb, u8>,
-    ) -> Self {
+    pub fn new(location: Point, scale: f32, color: Mrgb, outline: Mrgb) -> Self {
         let mbody = Body {
             centroid: location,
             color: color,
@@ -37,8 +31,12 @@ impl Monster {
                     scale: scale,
                     color: color,
                     outline: outline,
-                    left_bounding_rect: Rect::from_w_h(scale*2.5, scale/4.0).left_of(tummy_rect).align_top_of(tummy_rect),
-                    right_bounding_rect: Rect::from_w_h(scale*2.5, scale/4.0).right_of(tummy_rect).align_top_of(tummy_rect),
+                    left_bounding_rect: Rect::from_w_h(scale * 2.5, scale / 4.0)
+                        .left_of(tummy_rect)
+                        .align_top_of(tummy_rect),
+                    right_bounding_rect: Rect::from_w_h(scale * 2.5, scale / 4.0)
+                        .right_of(tummy_rect)
+                        .align_top_of(tummy_rect),
                 }),
                 Box::new(Legs {
                     scale: scale,
