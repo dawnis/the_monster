@@ -28,6 +28,8 @@ enum Color {
     Gold,
     Chocolate,
     Gray,
+    HoneyDew,
+    Black,
 }
 
 impl ToString for Color {
@@ -93,9 +95,10 @@ fn update(app: &App, model: &mut Model, _update: Update) {
 
 fn view(app: &App, model: &Model, frame: Frame) {
     let draw = app.draw();
-    let outline_color = BLACK;
+    let outline_color = Color::Black;
+    let bg_color = Color::HoneyDew;
 
-    draw.background().color(MEDIUMTURQUOISE);
+    draw.background().color(Mrgb::from(bg_color));
     let opt = Opt::from_args();
     let color_param = Color::from(opt.color);
 
@@ -103,7 +106,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
         model.monster_location,
         50.0,
         Mrgb::from(color_param),
-        outline_color,
+        Mrgb::from(outline_color),
     )
     .make(&draw);
 
