@@ -2,32 +2,52 @@ mod monster;
 mod parts;
 use crate::monster::Monster;
 use nannou::color::encoding::Srgb;
-use palette::named;
 use nannou::color::rgb::Rgb;
 use nannou::prelude::*;
-use rand::Rng;
+use palette::named;
+use structopt::StructOpt;
+
+///A monster drawing program
+#[derive(StructOpt, Debug)]
+#[structopt(name = "the_monster")]
+pub struct Opt {
+    /// Set the color of the monster
+    #[structopt(short, long, default_value = "blue")]
+    color: String,
+}
 
 ///Type alias for nannou color type
 type Mrgb = Rgb<Srgb, u8>;
 
 #[derive(Debug, Clone, Copy)]
 enum Color {
-    MEDIUMORCHID,
-    YELLOW,
-    ORANGE,
-    BLUE,
-    HOTPINK,
-    LAWNGREEN,
-    GOLD,
-    DEEPPINK,
-    CORAL,
-    AQUAMARINE,
-    CHOCOLATE,
+    Yellow,
+    Blue,
+    HotPink,
+    LawnGreen,
+    Gold,
+    Chocolate,
+    Gray,
 }
 
 impl ToString for Color {
     fn to_string(&self) -> String {
         format!("{:?}", self).to_lowercase()
+    }
+}
+
+impl From<String> for Color {
+    fn from(s: String) -> Self {
+        let s_lower = s.to_lowercase();
+        match s_lower.as_str() {
+            "yellow" => Color::Yellow,
+            "blue" => Color::Blue,
+            "pink" => Color::HotPink,
+            "green" => Color::LawnGreen,
+            "gold" => Color::Gold,
+            "brown" => Color::Chocolate,
+            _ => Color::Gray,
+        }
     }
 }
 
@@ -76,27 +96,13 @@ fn view(app: &App, model: &Model, frame: Frame) {
     let outline_color = BLACK;
 
     draw.background().color(MEDIUMTURQUOISE);
-    let color_array = vec![
-        MEDIUMORCHID,
-        YELLOW,
-        ORANGE,
-        BLUE,
-        HOTPINK,
-        LAWNGREEN,
-        GOLD,
-        DEEPPINK,
-        CORAL,
-        AQUAMARINE,
-        CHOCOLATE,
-    ];
-
-    let mut rng = rand::thread_rng();
-    let color_selection = rng.gen_range(0..color_array.len());
+    let opt = Opt::from_args();
+    let color_param = Color::from(opt.color);
 
     Monster::new(
         model.monster_location,
         50.0,
-        color_array[color_selection],
+        Mrgb::from(color_param),
         outline_color,
     )
     .make(&draw);

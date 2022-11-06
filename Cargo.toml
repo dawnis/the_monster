@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 nannou = "0.18.1"
-palette = { version = "0.6.1", features = [ "named" ]}
+palette = { version = "0.5", features = [ "named" ]}
 rand = "0.8.5"
+structopt = "0.3"
