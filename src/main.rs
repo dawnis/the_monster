@@ -1,11 +1,14 @@
+mod colors;
+mod logging;
 mod monster;
 mod parts;
+use crate::colors::{Color, Mrgb};
+use crate::logging::init_logging;
 use crate::monster::Monster;
-use nannou::color::encoding::Srgb;
-use nannou::color::rgb::Rgb;
-use nannou::prelude::*;
-use palette::named;
+use crate::parts::Point;
+use lazy_static::lazy_static;
 use structopt::StructOpt;
+use nannou::prelude::*;
 
 ///A monster drawing program
 #[derive(StructOpt, Debug)]
@@ -14,65 +17,17 @@ pub struct Opt {
     /// Set the color of the monster
     #[structopt(short, long, default_value = "blue")]
     color: String,
+    /// Verbose mode (-v: warn, -vv: info, -vvv: debug, , -vvvv or more: trace)
+    #[structopt(short, long, parse(from_occurrences))]
+    verbosity: u8,
 }
 
-///Type alias for nannou color type
-type Mrgb = Rgb<Srgb, u8>;
-
-#[derive(Debug, Clone, Copy)]
-enum Color {
-    Yellow,
-    Blue,
-    HotPink,
-    LawnGreen,
-    Gold,
-    Chocolate,
-    Gray,
-    HoneyDew,
-    Black,
-}
-
-impl ToString for Color {
-    fn to_string(&self) -> String {
-        format!("{:?}", self).to_lowercase()
-    }
-}
-
-impl From<String> for Color {
-    fn from(s: String) -> Self {
-        let s_lower = s.to_lowercase();
-        match s_lower.as_str() {
-            "yellow" => Color::Yellow,
-            "blue" => Color::Blue,
-            "pink" => Color::HotPink,
-            "green" => Color::LawnGreen,
-            "gold" => Color::Gold,
-            "brown" => Color::Chocolate,
-            _ => Color::Gray,
-        }
-    }
-}
-
-impl From<Color> for Mrgb {
-    fn from(c: Color) -> Self {
-        named::from_str(&c.to_string()).unwrap()
-    }
-}
-
-/// A coordinate pair - the (0,0) default is the center of the frame
-#[derive(Debug, Default, Clone, Copy)]
-pub struct Point {
-    x: f32,
-    y: f32,
-}
-
-impl Point {
-    fn new(x: f32, y: f32) -> Self {
-        Self { x, y }
-    }
+lazy_static! {
+    pub static ref OPT: Opt = Opt::from_args();
 }
 
 fn main() {
+    init_logging(OPT.verbosity);
     nannou::app(model).update(update).run()
 }
 
@@ -99,8 +54,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
     let bg_color = Color::HoneyDew;
 
     draw.background().color(Mrgb::from(bg_color));
-    let opt = Opt::from_args();
-    let color_param = Color::from(opt.color);
+    let color_param = Color::from(OPT.color.clone());
 
     Monster::new(
         model.monster_location,
