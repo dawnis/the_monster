@@ -1,12 +1,11 @@
+use crate::Point;
 use crate::parts::{eye::Eye, polygon::Polygon};
-use crate::monster::Rawr;
-use nannou::color::encoding::Srgb;
-use nannou::color::rgb::Rgb;
+use crate::monster::{Rawr, Mrgb};
 use nannou::prelude::*;
 
 pub struct Head {
-    pub color: Rgb<Srgb, u8>,
-    pub outline: Rgb<Srgb, u8>,
+    pub color: Mrgb,
+    pub outline: Mrgb,
     pub scale: f32,
     pub bounding_rect: Rect,
 }
@@ -15,7 +14,7 @@ impl Rawr for Head {
     fn rawr(&self, d: &Draw) {
         Polygon::new(
             12,
-            (self.bounding_rect.x(), self.bounding_rect.y()),
+            Point::new(self.bounding_rect.x(), self.bounding_rect.y()),
             self.scale,
             self.color,
             self.outline,
@@ -24,7 +23,7 @@ impl Rawr for Head {
 
         Eye::new(
             self.scale / 2.0,
-            (self.bounding_rect.x()-self.scale / 3.0, self.bounding_rect.y()),
+            Point::new(self.bounding_rect.x()-self.scale / 3.0, self.bounding_rect.y()),
             WHITE,
             BLACK,
         )
@@ -32,7 +31,7 @@ impl Rawr for Head {
 
         Eye::new(
             self.scale / 2.0,
-            (self.bounding_rect.x()+self.scale / 3.0, self.bounding_rect.y()),
+            Point::new(self.bounding_rect.x()+self.scale / 3.0, self.bounding_rect.y()),
             WHITE,
             BLACK,
         )

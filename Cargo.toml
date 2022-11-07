@@ -7,4 +7,11 @@ edition = "2021"
 
 [dependencies]
 nannou = "0.18.1"
+palette = { version = "0.5", features = [ "named" ]}
 rand = "0.8.5"
+structopt = "0.3"
+log = "0.4"
+pretty_env_logger = "0.3"
+lazy_static = "1.4"
+thiserror = "1.0"
+anyhow = "1.0"

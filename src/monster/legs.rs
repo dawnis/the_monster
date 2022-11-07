@@ -1,11 +1,9 @@
-use crate::monster::Rawr;
-use nannou::color::encoding::Srgb;
-use nannou::color::rgb::Rgb;
+use crate::monster::{Rawr, Mrgb};
 use nannou::prelude::*;
 
 pub struct Legs {
-    pub color: Rgb<Srgb, u8>,
-    pub outline: Rgb<Srgb, u8>,
+    pub color: Mrgb,
+    pub outline: Mrgb,
     pub scale: f32,
     pub bounding_rect: Rect,
 }
