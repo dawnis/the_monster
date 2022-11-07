@@ -7,8 +7,9 @@ use crate::logging::init_logging;
 use crate::monster::Monster;
 use crate::parts::Point;
 use lazy_static::lazy_static;
-use structopt::StructOpt;
+use log::*;
 use nannou::prelude::*;
+use structopt::StructOpt;
 
 ///A monster drawing program
 #[derive(StructOpt, Debug)]
@@ -34,6 +35,8 @@ fn main() {
 struct Model {
     _window: window::Id,
     pub monster_location: Point,
+    pub monster_moving: bool,
+    pub flag_updated_time: f64
 }
 
 fn model(app: &App) -> Model {
@@ -41,11 +44,25 @@ fn model(app: &App) -> Model {
     Model {
         _window,
         monster_location: Point::new(0.0, 0.0),
+        monster_moving: true,
+        flag_updated_time: 0.0,
     }
 }
 
 fn update(app: &App, model: &mut Model, _update: Update) {
-    model.monster_location = Point::new(app.mouse.x, app.mouse.y);
+    use nannou::state::mouse::ButtonPosition;
+
+    if let ButtonPosition::Down(_) = app.mouse.buttons.left() {
+        if app.duration.since_start.secs() - model.flag_updated_time > 0.5 {
+            model.monster_moving = !model.monster_moving;
+            model.flag_updated_time = app.duration.since_start.secs();
+            debug!("Monster moving set to {:?}", model.monster_moving);
+        }
+    }
+
+    if model.monster_moving {
+        model.monster_location = Point::new(app.mouse.x, app.mouse.y);
+    }
 }
 
 fn view(app: &App, model: &Model, frame: Frame) {

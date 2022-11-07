@@ -17,7 +17,7 @@ pub fn init_logging(level: u8) {
             _ => "trace",
         }
     };
-    set_var("RUST_LOG", verbosity);
+    set_var("RUST_LOG", "the_monster=".to_owned()+verbosity);
 
     pretty_env_logger::init();
 

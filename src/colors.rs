@@ -8,7 +8,7 @@ pub type Mrgb = Rgb<Srgb, u8>;
 #[derive(Debug, Clone, Copy)]
 pub enum Color {
     Yellow,
-    Blue,
+    Aqua,
     HotPink,
     LawnGreen,
     Gold,
@@ -29,7 +29,7 @@ impl From<String> for Color {
         let s_lower = s.to_lowercase();
         match s_lower.as_str() {
             "yellow" => Color::Yellow,
-            "blue" => Color::Blue,
+            "blue" => Color::Aqua,
             "pink" => Color::HotPink,
             "green" => Color::LawnGreen,
             "gold" => Color::Gold,
